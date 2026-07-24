@@ -19,52 +19,31 @@
         }
 
         body {
-            font-family: '-apple-system', BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            font-family: '-apple-system', BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
             background: radial-gradient(circle at center, #3a0007 0%, var(--premium-black) 100%);
             height: 100vh;
-            /* Precise height fallback for mobile Safari/Chrome address bars */
             height: 100dvh; 
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             margin: 0;
             overflow: hidden;
             text-align: center;
-            /* Standard iPhone 14 Notch/Dynamic Island protection padding */
-            padding: 60px 24px 40px 24px; 
-        }
-
-        /* Floating background decorative glowing orbs */
-        .ambient-glow {
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(217,4,41,0.2) 0%, rgba(0,0,0,0) 70%);
-            top: 20%;
-            z-index: 1;
-            pointer-events: none;
-            animation: floatGlow 8s infinite alternate;
-        }
-
-        @keyframes floatGlow {
-            0% { transform: translateY(0) scale(1); }
-            100% { transform: translateY(-30px) scale(1.2); }
+            padding: 20px; 
         }
 
         .card-container {
-            background: rgba(40, 2, 8, 0.75);
-            border: 2px solid rgba(217, 4, 41, 0.3);
-            padding: 30px 24px;
-            border-radius: 30px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(217, 4, 41, 0.15);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
+            background: rgba(40, 2, 8, 0.8);
+            border: 2px solid rgba(217, 4, 41, 0.4);
+            padding: 30px 20px;
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             width: 100%;
-            max-width: 350px; /* Tailored directly for the iPhone 14 width viewport */
+            max-width: 340px;
             z-index: 10;
-            margin: auto 0;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .img-container {
@@ -75,106 +54,72 @@
         }
 
         .img-container img {
-            width: 200px;
-            height: 200px;
+            width: 180px;
+            height: 180px;
             object-fit: cover;
-            border-radius: 24px;
+            border-radius: 20px;
             border: 3px solid var(--primary-red);
-            box-shadow: 0 8px 25px rgba(217, 4, 41, 0.4);
-            transition: transform 0.5s ease;
+            box-shadow: 0 8px 20px rgba(217, 4, 41, 0.4);
         }
 
         h1 {
             color: #ffffff;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 800;
             margin: 10px 0;
-            letter-spacing: -0.5px;
             text-shadow: 0 2px 10px rgba(217, 4, 41, 0.5);
         }
 
         p {
             color: #ffccd5;
-            font-size: 1.1rem;
-            line-height: 1.5;
-            margin: 0 0 25px 0;
-            min-height: 54px;
-            font-weight: 500;
+            font-size: 1.05rem;
+            line-height: 1.4;
+            margin: 0 0 20px 0;
+            min-height: 50px;
         }
 
-        /* Dedicated action container engineered around easy thumb reach zone */
         .interactive-zone {
             width: 100%;
-            height: 140px;
-            position: relative;
+            height: 80px;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: 10px;
+            gap: 20px;
+            position: relative;
         }
 
         button {
-            padding: 16px 36px;
-            font-size: 1.25rem;
+            padding: 14px 30px;
+            font-size: 1.15rem;
             font-weight: 800;
             border: none;
             border-radius: 50px;
             cursor: pointer;
             outline: none;
-            box-sizing: border-box;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         #yesBtn {
             background: linear-gradient(135deg, #38b000 0%, #007200 100%);
             color: white;
-            box-shadow: 0 8px 25px rgba(56, 176, 0, 0.5);
+            box-shadow: 0 5px 15px rgba(56, 176, 0, 0.4);
             z-index: 100;
-            transform-origin: center center;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.35);
-        }
-
-        #yesBtn.superPulse {
-            animation: intenseGlow 0.4s infinite alternate alternate-reverse;
         }
 
         #noBtn {
             background: linear-gradient(135deg, var(--bright-scarlet) 0%, var(--dark-crimson) 100%);
             color: white;
-            box-shadow: 0 6px 20px rgba(217, 4, 41, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            z-index: 200; /* Stays physically layered on top so it never goes behind */
-            position: fixed; /* Boundless viewport flight capability */
-            /* Default initial resting coordinates mapped for thumb reach flow */
-            left: calc(50% + 40px);
-            top: calc(50% + 140px);
-            transform: translate(-50%, -50%);
-            transition: left 0.12s cubic-bezier(0.19, 1, 0.22, 1), top 0.12s cubic-bezier(0.19, 1, 0.22, 1);
+            box-shadow: 0 5px 15px rgba(217, 4, 41, 0.4);
+            z-index: 105;
         }
 
-        @keyframes intenseGlow {
-            0% { box-shadow: 0 0 15px #38b000, 0 0 30px rgba(56, 176, 0, 0.4); }
-            100% { box-shadow: 0 0 25px #38b000, 0 0 50px rgba(56, 176, 0, 0.8); }
-        }
-
-        /* Romantic success view modifiers */
         .celebrate-title {
             color: var(--gold-accent) !important;
             text-shadow: 0 0 20px rgba(254, 228, 64, 0.6) !important;
-            animation: bounce 0.6s ease infinite alternate;
-        }
-
-        @keyframes bounce {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-8px); }
         }
     </style>
 </head>
 <body>
-
-    <div class="ambient-glow"></div>
 
     <div class="card-container" id="proposalCard">
         <div class="img-container">
@@ -185,11 +130,9 @@
         
         <div class="interactive-zone" id="actionArea">
             <button id="yesBtn">YES! </button>
+            <button id="noBtn">No </button>
         </div>
     </div>
-
-    <!-- The No button injected cleanly at the root layer to avoid boundary masking traps -->
-    <button id="noBtn">No </button>
 
     <script>
         const noBtn = document.getElementById('noBtn');
@@ -197,7 +140,6 @@
         const heading = document.getElementById('questionHeading');
         const subText = document.getElementById('subText');
         const photo = document.getElementById('displayPhoto');
-        const actionArea = document.getElementById('actionArea');
         const card = document.getElementById('proposalCard');
 
         let yesScale = 1;
@@ -213,57 +155,59 @@
             "Catch me if you can! 🏃‍♀️💨"
         ];
 
-        // Safely map initial layout dynamic positioning for the runaway target
-        function setupButtonPosition() {
-            const rect = yesBtn.getBoundingClientRect();
-            // Rest position neatly to the right side of the Yes button on loading sequence
-            noBtn.style.left = (rect.right + 60) + 'px';
-            noBtn.style.top = (rect.top + (rect.height / 2)) + 'px';
-        }
-
-        window.addEventListener('load', setupButtonPosition);
-        window.addEventListener('resize', setupButtonPosition);
-
-        function escapeNoButton(e) {
+        function teleportNoButton(e) {
             if(e) e.preventDefault();
 
-            // Total viewport spatial dynamic bounds calculation
-            const viewWidth = window.innerWidth;
-            const viewHeight = window.innerHeight;
-            const btnWidth = noBtn.offsetWidth;
-            const btnHeight = noBtn.offsetHeight;
-
-            // Safe system boundaries checking to keep elements inside screen view parameters
-            const minX = btnWidth;
-            const maxX = viewWidth - btnWidth;
-            const minY = btnHeight + 40; // Top buffer for Notch UI safety
-            const maxY = viewHeight - btnHeight - 40; // Bottom home bar safety
-
-            // Pull fresh geometry matrix parameters for the expanded Yes button box
-            const yesRect = yesBtn.getBoundingClientRect();
-
-            let randomX, randomY;
-            let overlapsYes = true;
-            let safetyCounter = 0;
-
-            // Mathematical Exclusion loop: Guarantees No button NEVER lands over or under the Yes button space
-            while (overlapsYes && safetyCounter < 50) {
-                randomX = Math.floor(Math.random() * (maxX - minX)) + minX;
-                randomY = Math.floor(Math.random() * (maxY - minY)) + minY;
-
-                // Expand collision matrix slightly past actual borders for clear space mapping
-                const buffer = 30;
-                const isOutsideX = (randomX + btnWidth/2 < yesRect.left - buffer) || (randomX - btnWidth/2 > yesRect.right + buffer);
-                const isOutsideY = (randomY + btnHeight/2 < yesRect.top - buffer) || (randomY - btnHeight/2 > yesRect.bottom + buffer);
-
-                if (isOutsideX || isOutsideY) {
-                    overlapsYes = false;
-                }
-                safetyCounter++;
+            // Switch to fixed tracking dynamically on user tap/hover
+            if (noBtn.style.position !== 'fixed') {
+                noBtn.style.position = 'fixed';
             }
 
-            // Assign final flight coordinates
+            // Generate clean target limits bounded safely inside screen viewports
+            const padding = 30;
+            const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+            const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+
+            // Move the button to the new random coordinates instantly
             noBtn.style.left = randomX + 'px';
             noBtn.style.top = randomY + 'px';
 
-            // Scale the Main Target Acceptance Button exponentially
+            // Scale up the Yes Button smoothly
+            yesScale += 0.3;
+            yesBtn.style.transform = `scale(${yesScale})`;
+
+            // Cycle text prompts
+            if (clickCount < funnyPhrases.length) {
+                subText.innerText = funnyPhrases[clickCount];
+            } else {
+                subText.innerText = "Give up, Chellokutieee! Just click YES! 😎";
+            }
+            clickCount++;
+        }
+
+        // Standard device events to trigger the escape sequence
+        noBtn.addEventListener('mouseenter', teleportNoButton);
+        noBtn.addEventListener('touchstart', teleportNoButton, {passive: false});
+        noBtn.addEventListener('click', teleportNoButton);
+
+        // Success Callback UI sequence
+        yesBtn.addEventListener('click', () => {
+            noBtn.style.display = 'none';
+            yesBtn.style.display = 'none';
+            
+            heading.innerText = "YAYYYYY! ❤️💍";
+            heading.classList.add('celebrate-title');
+            
+            subText.innerText = "Best decision ever. I love you to the moon and back, Chellokutieee!";
+            subText.style.color = "#ffffff";
+            
+            photo.src = "us-yes.jpg"; 
+            card.style.borderColor = "#38b000";
+            card.style.boxShadow = "0 20px 40px rgba(56, 176, 0, 0.3)";
+        });
+    </script>
+</body>
+</html>
