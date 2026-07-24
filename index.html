@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Question ❤️</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffe5ec, #ffc2d1);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            overflow: hidden;
+            text-align: center;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            max-width: 90%;
+            width: 400px;
+            transition: all 0.3s ease;
+        }
+        h1 {
+            color: #ff4d6d;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #4a4a4a;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+        .gif-container img {
+            width: 150px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            height: 150px;
+            position: relative;
+        }
+        button {
+            padding: 12px 25px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s ease, font-size 0.2s ease;
+        }
+        #yesBtn {
+            background-color: #38b000;
+            color: white;
+            box-shadow: 0 5px 15px rgba(56, 176, 0, 0.4);
+            z-index: 10;
+        }
+        #yesBtn.pulse {
+            animation: pulseGlow 0.5s infinite alternate;
+        }
+        #noBtn {
+            background-color: #ff4d6d;
+            color: white;
+            position: absolute;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
+            transition: left 0.15s ease-out, top 0.15s ease-out;
+        }
+        @keyframes pulseGlow {
+            0% { transform: scale(1); box-shadow: 0 5px 15px rgba(56, 176, 0, 0.4); }
+            100% { transform: scale(1.05); box-shadow: 0 5px 25px rgba(56, 176, 0, 0.8); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="mainContainer">
+        <div class="gif-container">
+            <!-- Cute default gif -->
+            <img id="displayGif" src="https://giphy.com" alt="Cute bear">
+        </div>
+        <h1 id="questionHeading">Will you renew our relationship contract?</h1>
+        <p id="subText">Will you be my girlfriend all over again? ❤️</p>
+        
+        <div class="btn-container">
+            <button id="yesBtn">YES! </button>
+            <button id="noBtn">No </button>
+        </div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const heading = document.getElementById('questionHeading');
+        const subText = document.getElementById('subText');
+        const gif = document.getElementById('displayGif');
+        const container = document.getElementById('mainContainer');
+
+        let yesScale = 1;
+        let clickCount = 0;
+
+        const funnyPhrases = [
+            "Are you sure? ",
+            "Think again! 🥺",
+            "Plese click Yes ",
+            "The button is broken, try Yes! 🔥",
+            "Error 404: 'No' option not found! ❌"
+        ];
+
+        // Function to move the No button randomly
+        function moveNoButton() {
+            // Get boundaries of the container to keep button within view
+            const padding = 20;
+            const maxX = container.clientWidth - noBtn.clientWidth - padding;
+            const maxY = container.clientHeight - noBtn.clientHeight - padding;
+            
+            // Generate random positions relative to the container
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+            
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+
+            // Make the Yes button grow bigger
+            yesScale += 0.25;
+            yesBtn.style.transform = `scale(${yesScale})`;
+            yesBtn.classList.add('pulse');
+
+            // Change text dynamically to make it funny
+            if (clickCount < funnyPhrases.length) {
+                subText.innerText = funnyPhrases[clickCount];
+            } else {
+                subText.innerText = "Just look how big the YES button is! 😎";
+            }
+            clickCount++;
+        }
+
+        // Move on both hover (desktop) and touch/click (mobile)
+        noBtn.addEventListener('mouseenter', moveNoButton);
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
+
+        // What happens when she clicks YES
+        yesBtn.addEventListener('click', () => {
+            document.querySelector('.btn-container').style.display = 'none';
+            heading.innerText = "YAYYYYY! ❤️💍";
+            subText.innerText = "Best decision ever. I love you to the moon and back!";
+            gif.src = "https://giphy.com"; // Cute celebration gif
+            
+            // Little screen shake celebration
+            container.style.animation = "pulseGlow 0.5s 3";
+        });
+    </script>
+</body>
+</html>
