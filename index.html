@@ -18,66 +18,75 @@
             text-align: center;
         }
         .container {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.9);
             padding: 30px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             backdrop-filter: blur(10px);
             max-width: 90%;
-            width: 400px;
-            transition: all 0.3s ease;
+            width: 360px;
+            position: relative;
+            box-sizing: border-box;
         }
         h1 {
             color: #ff4d6d;
-            font-size: 2rem;
-            margin-bottom: 10px;
+            font-size: 1.8rem;
+            margin: 0 0 10px 0;
         }
         p {
             color: #4a4a4a;
             font-size: 1.1rem;
-            margin-bottom: 30px;
+            margin: 0 0 20px 0;
+            min-height: 27px;
         }
         .gif-container img {
-            width: 150px;
-            margin-bottom: 20px;
+            width: 140px;
+            height: 140px;
+            object-fit: contain;
+            margin-bottom: 15px;
             border-radius: 10px;
         }
-        .btn-container {
+        /* Fixed workspace wrapper to safely trap the chaotic No button */
+        .btn-wrapper {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            margin-top: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 20px;
-            height: 150px;
-            position: relative;
+            gap: 30px;
         }
         button {
-            padding: 12px 25px;
+            padding: 12px 28px;
             font-size: 1.2rem;
             font-weight: bold;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.2s ease, font-size 0.2s ease;
+            outline: none;
         }
         #yesBtn {
             background-color: #38b000;
             color: white;
             box-shadow: 0 5px 15px rgba(56, 176, 0, 0.4);
-            z-index: 10;
+            z-index: 100;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         #yesBtn.pulse {
-            animation: pulseGlow 0.5s infinite alternate;
+            animation: pulseGlow 0.6s infinite alternate;
         }
         #noBtn {
             background-color: #ff4d6d;
             color: white;
-            position: absolute;
             box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
-            transition: left 0.15s ease-out, top 0.15s ease-out;
+            z-index: 99;
+            /* Explicit inline-style overrides this smooth transition instantly on runtime movement */
+            transition: transform 0.1s ease;
         }
         @keyframes pulseGlow {
-            0% { transform: scale(1); box-shadow: 0 5px 15px rgba(56, 176, 0, 0.4); }
-            100% { transform: scale(1.05); box-shadow: 0 5px 25px rgba(56, 176, 0, 0.8); }
+            0% { box-shadow: 0 5px 15px rgba(56, 176, 0, 0.4); }
+            100% { box-shadow: 0 5px 30px rgba(56, 176, 0, 0.9); }
         }
     </style>
 </head>
@@ -85,13 +94,13 @@
 
     <div class="container" id="mainContainer">
         <div class="gif-container">
-            <!-- Cute default gif -->
-            <img id="displayGif" src="https://giphy.com" alt="Cute bear">
+            <!-- Working fallback public visual assets -->
+            <img id="displayGif" src="https://giphy.com" alt="Cute proposal gif">
         </div>
         <h1 id="questionHeading">Will you renew our relationship contract?</h1>
         <p id="subText">Will you be my girlfriend all over again? ❤️</p>
         
-        <div class="btn-container">
+        <div class="btn-wrapper" id="workSpace">
             <button id="yesBtn">YES! </button>
             <button id="noBtn">No </button>
         </div>
@@ -103,63 +112,68 @@
         const heading = document.getElementById('questionHeading');
         const subText = document.getElementById('subText');
         const gif = document.getElementById('displayGif');
-        const container = document.getElementById('mainContainer');
+        const workSpace = document.getElementById('workSpace');
 
         let yesScale = 1;
         let clickCount = 0;
 
         const funnyPhrases = [
-            "Are you sure? ",
-            "Think again! 🥺",
-            "Plese click Yes ",
+            "Are you sure? 🥺",
+            "Think again! ",
+            "Please click Yes! ✨",
             "The button is broken, try Yes! 🔥",
-            "Error 404: 'No' option not found! ❌"
+            "Error 404: 'No' option locked! ❌"
         ];
 
-        // Function to move the No button randomly
-        function moveNoButton() {
-            // Get boundaries of the container to keep button within view
-            const padding = 20;
-            const maxX = container.clientWidth - noBtn.clientWidth - padding;
-            const maxY = container.clientHeight - noBtn.clientHeight - padding;
+        // This securely moves the button strictly inside the container bounds
+        function moveNoButton(e) {
+            if(e) e.preventDefault();
             
-            // Generate random positions relative to the container
+            // Switch layout token to absolute injection safely upon first trigger interaction
+            if (noBtn.style.position !== 'absolute') {
+                noBtn.style.position = 'absolute';
+            }
+
+            const spaceWidth = workSpace.clientWidth;
+            const spaceHeight = workSpace.clientHeight;
+            const btnWidth = noBtn.offsetWidth;
+            const btnHeight = noBtn.offsetHeight;
+
+            // Compute safe margins
+            const maxX = spaceWidth - btnWidth;
+            const maxY = spaceHeight - btnHeight;
+
             const randomX = Math.floor(Math.random() * maxX);
             const randomY = Math.floor(Math.random() * maxY);
-            
+
             noBtn.style.left = randomX + 'px';
             noBtn.style.top = randomY + 'px';
 
-            // Make the Yes button grow bigger
-            yesScale += 0.25;
+            // Scale the Target Acceptance Button exponentially
+            yesScale += 0.35;
             yesBtn.style.transform = `scale(${yesScale})`;
             yesBtn.classList.add('pulse');
 
-            // Change text dynamically to make it funny
+            // Rotate text content messages sequentially
             if (clickCount < funnyPhrases.length) {
                 subText.innerText = funnyPhrases[clickCount];
             } else {
-                subText.innerText = "Just look how big the YES button is! 😎";
+                subText.innerText = "Resistance is futile! Just click YES! 😎";
             }
             clickCount++;
         }
 
-        // Move on both hover (desktop) and touch/click (mobile)
+        // Attach listeners across unified Desktop Hover and Mobile Touch interfaces
         noBtn.addEventListener('mouseenter', moveNoButton);
-        noBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            moveNoButton();
-        });
+        noBtn.addEventListener('touchstart', moveNoButton);
+        noBtn.addEventListener('click', moveNoButton);
 
-        // What happens when she clicks YES
+        // Success State Function execution
         yesBtn.addEventListener('click', () => {
-            document.querySelector('.btn-container').style.display = 'none';
+            workSpace.style.display = 'none';
             heading.innerText = "YAYYYYY! ❤️💍";
             subText.innerText = "Best decision ever. I love you to the moon and back!";
-            gif.src = "https://giphy.com"; // Cute celebration gif
-            
-            // Little screen shake celebration
-            container.style.animation = "pulseGlow 0.5s 3";
+            gif.src = "https://giphy.com"; 
         });
     </script>
 </body>
