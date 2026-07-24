@@ -120,7 +120,7 @@
             background: linear-gradient(135deg, var(--bright-scarlet) 0%, var(--dark-crimson) 100%);
             color: white;
             box-shadow: 0 5px 15px rgba(217, 4, 41, 0.4);
-            z-index: 9999 !important; /* Ultimate absolute top layering priority */
+            z-index: 9999 !important; /* Ultimate absolute top layering priority over everything */
         }
 
         .celebrate-title {
@@ -180,12 +180,33 @@
             const maxX = window.innerWidth - noBtn.offsetWidth - padding;
             const maxY = window.innerHeight - noBtn.offsetHeight - padding;
 
-            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+            // Pull the exact layout bounds of the main card container
+            const cardRect = card.getBoundingClientRect();
+            
+            let randomX, randomY;
+            let overlapsCard = true;
+            let safetyAttempts = 0;
 
+            // Mathematical loop: Force the No button to regenerate its coordinates if it's over the text card
+            while (overlapsCard && safetyAttempts < 100) {
+                randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+                randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+
+                // Check if the random point is completely outside the text card box bounds
+                const isOutsideX = (randomX + noBtn.offsetWidth < cardRect.left) || (randomX > cardRect.right);
+                const isOutsideY = (randomY + noBtn.offsetHeight < cardRect.top) || (randomY > cardRect.bottom);
+
+                if (isOutsideX || isOutsideY) {
+                    overlapsCard = false;
+                }
+                safetyAttempts++;
+            }
+
+            // Move the button to the clean coordinates instantly
             noBtn.style.left = randomX + 'px';
             noBtn.style.top = randomY + 'px';
 
+            // Scale up the Yes Button smoothly
             yesScale += 0.3;
             yesBtn.style.transform = `scale(${yesScale})`;
 
