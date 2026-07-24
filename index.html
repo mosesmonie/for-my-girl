@@ -127,9 +127,7 @@
             background: linear-gradient(135deg, var(--bright-scarlet) 0%, var(--dark-crimson) 100%);
             color: white;
             box-shadow: 0 5px 15px rgba(217, 4, 41, 0.4);
-            /* z-index is set to 9999 to guarantee it layers over everything on screen */
             z-index: 9999 !important; 
-            /* Fixed positioning decouples the item from overflow cutting parameters */
             position: fixed; 
             transition: left 0.15s ease-out, top 0.15s ease-out;
         }
@@ -156,7 +154,6 @@
         </div>
     </div>
 
-    <!-- No button is placed cleanly outside the card structure to prevent rendering clip errors -->
     <button id="noBtn">No </button>
 
     <script>
@@ -181,7 +178,6 @@
             "Catch me if you can! 🏃‍♀️💨"
         ];
 
-        // Maps the dynamic start location right next to the Yes option using viewport vectors
         function initNoButtonPosition() {
             const yesRect = yesBtn.getBoundingClientRect();
             noBtn.style.left = (yesRect.right + 20) + 'px';
@@ -194,7 +190,6 @@
         function teleportNoButton(e) {
             if(e) e.preventDefault();
 
-            // Track real-time coordinates of elements on screen
             const cardRect = card.getBoundingClientRect();
             const photoRect = photoBox.getBoundingClientRect();
             const headingRect = heading.getBoundingClientRect();
@@ -205,7 +200,6 @@
             const btnHeight = noBtn.offsetHeight;
             const padding = 15;
 
-            // Constrain movement strictly inside the visible boundaries of the text card
             const minX = cardRect.left + padding;
             const maxX = cardRect.right - btnWidth - padding;
             const minY = cardRect.top + padding;
@@ -215,7 +209,6 @@
             let collisionDetected = true;
             let safetyAttempts = 0;
 
-            // Algorithm to prevent overlapping text elements
             while (collisionDetected && safetyAttempts < 100) {
                 randomX = Math.floor(Math.random() * (maxX - minX)) + minX;
                 randomY = Math.floor(Math.random() * (maxY - minY)) + minY;
@@ -231,7 +224,6 @@
                              randomY > rect.bottom + buffer);
                 }
 
-                // Check text components but bypass the growing Yes button after 40 attempts to avoid layout deadlocks
                 if (!checkOverlap(photoRect) && !checkOverlap(headingRect) && !checkOverlap(textRect)) {
                     if (safetyAttempts > 40 || !checkOverlap(yesRect)) {
                         collisionDetected = false;
@@ -240,17 +232,14 @@
                 safetyAttempts++;
             }
 
-            // Fallback placement: If a completely empty space isn't found, keep the button inside the action area bounding box
             if (collisionDetected) {
                 randomX = Math.floor(Math.random() * (maxX - minX)) + minX;
                 randomY = Math.floor(yesRect.top + (Math.random() * (yesRect.height - btnHeight)));
             }
 
-            // Apply calculated coordinates
             noBtn.style.left = randomX + 'px';
             noBtn.style.top = randomY + 'px';
 
-            // Scale up the Yes button
             yesScale += 0.25;
             yesBtn.style.transform = `scale(${yesScale})`;
 
@@ -265,5 +254,26 @@
             clickCount++;
         }
 
-        // Attach listeners across all touch panels and desktop pointers
-noBtn.addEventListener('mouseenter', teleportNoButton);noBtn.addEventListener('touchstart', teleportNoButton, {passive: false});noBtn.addEventListener('click', teleportNoButton);yesBtn.addEventListener('click', () => {noBtn.style.display = 'none';yesBtn.style.display = 'none';heading.innerText = "YAYYYYY! ❤️💍";heading.classList.add('celebrate-title');subText.innerText = "Best decision ever. I love you to the moon and back, Chellokutieee!";subText.style.fontFamily = "'Montserrat', sans-serif";subText.style.fontSize = "1.1rem";subText.style.color = "#ffffff";photo.src = "us-yes.jpg";card.style.borderColor = "#38b000";card.style.boxShadow = "0 20px 40px rgba(56, 176, 0, 0.3)";});
+        noBtn.addEventListener('mouseenter', teleportNoButton);
+        noBtn.addEventListener('touchstart', teleportNoButton, {passive: false});
+        noBtn.addEventListener('click', teleportNoButton);
+
+        yesBtn.addEventListener('click', () => {
+            noBtn.style.display = 'none';
+            yesBtn.style.display = 'none';
+            
+            heading.innerText = "YAYYYYY! ❤️💍";
+            heading.classList.add('celebrate-title');
+            
+            subText.innerText = "Best decision ever. I love you to the moon and back, Chellokutieee!";
+            subText.style.fontFamily = "'Montserrat', sans-serif";
+            subText.style.fontSize = "1.1rem";
+            subText.style.color = "#ffffff";
+            
+            photo.src = "us-yes.jpg"; 
+            card.style.borderColor = "#38b000";
+            card.style.boxShadow = "0 20px 40px rgba(56, 176, 0, 0.3)";
+        });
+    </script>
+</body>
+</html>
