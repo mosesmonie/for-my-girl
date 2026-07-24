@@ -2,108 +2,194 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>A Special Question ❤️</title>
     <style>
+        :root {
+            --primary-red: #d90429;
+            --dark-crimson: #800020;
+            --bright-scarlet: #ef233c;
+            --gold-accent: #fee440;
+            --premium-black: #1a0005;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #ffe5ec, #ffc2d1);
+            font-family: '-apple-system', BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            background: radial-gradient(circle at center, #3a0007 0%, var(--premium-black) 100%);
             height: 100vh;
+            /* Precise height fallback for mobile Safari/Chrome address bars */
+            height: 100dvh; 
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
             margin: 0;
             overflow: hidden;
             text-align: center;
+            /* Standard iPhone 14 Notch/Dynamic Island protection padding */
+            padding: 60px 24px 40px 24px; 
         }
-        .container {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            backdrop-filter: blur(10px);
-            max-width: 90%;
-            width: 360px;
-            position: relative;
-            box-sizing: border-box;
+
+        /* Floating background decorative glowing orbs */
+        .ambient-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(217,4,41,0.2) 0%, rgba(0,0,0,0) 70%);
+            top: 20%;
+            z-index: 1;
+            pointer-events: none;
+            animation: floatGlow 8s infinite alternate;
         }
-        h1 {
-            color: #ff4d6d;
-            font-size: 1.8rem;
-            margin: 0 0 10px 0;
+
+        @keyframes floatGlow {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(-30px) scale(1.2); }
         }
-        p {
-            color: #4a4a4a;
-            font-size: 1.1rem;
-            margin: 0 0 20px 0;
-            min-height: 27px;
-        }
-        .img-container img {
-            width: 180px;
-            height: 180px;
-            object-fit: cover; /* Keeps your custom photos perfectly cropped without stretching */
-            margin-bottom: 15px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        .btn-wrapper {
-            position: relative;
+
+        .card-container {
+            background: rgba(40, 2, 8, 0.75);
+            border: 2px solid rgba(217, 4, 41, 0.3);
+            padding: 30px 24px;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(217, 4, 41, 0.15);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             width: 100%;
-            height: 180px;
-            margin-top: 10px;
+            max-width: 350px; /* Tailored directly for the iPhone 14 width viewport */
+            z-index: 10;
+            margin: auto 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .img-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .img-container img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 24px;
+            border: 3px solid var(--primary-red);
+            box-shadow: 0 8px 25px rgba(217, 4, 41, 0.4);
+            transition: transform 0.5s ease;
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin: 10px 0;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 10px rgba(217, 4, 41, 0.5);
+        }
+
+        p {
+            color: #ffccd5;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            margin: 0 0 25px 0;
+            min-height: 54px;
+            font-weight: 500;
+        }
+
+        /* Dedicated action container engineered around easy thumb reach zone */
+        .interactive-zone {
+            width: 100%;
+            height: 140px;
+            position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 30px;
+            margin-top: 10px;
         }
+
         button {
-            padding: 12px 28px;
-            font-size: 1.2rem;
-            font-weight: bold;
+            padding: 16px 36px;
+            font-size: 1.25rem;
+            font-weight: 800;
             border: none;
             border-radius: 50px;
             cursor: pointer;
             outline: none;
+            box-sizing: border-box;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
+
         #yesBtn {
-            background-color: #38b000;
+            background: linear-gradient(135deg, #38b000 0%, #007200 100%);
             color: white;
-            box-shadow: 0 5px 15px rgba(56, 176, 0, 0.4);
+            box-shadow: 0 8px 25px rgba(56, 176, 0, 0.5);
             z-index: 100;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-origin: center center;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.35);
         }
-        #yesBtn.pulse {
-            animation: pulseGlow 0.6s infinite alternate;
+
+        #yesBtn.superPulse {
+            animation: intenseGlow 0.4s infinite alternate alternate-reverse;
         }
+
         #noBtn {
-            background-color: #ff4d6d;
+            background: linear-gradient(135deg, var(--bright-scarlet) 0%, var(--dark-crimson) 100%);
             color: white;
-            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
-            z-index: 99;
-            transition: transform 0.1s ease;
+            box-shadow: 0 6px 20px rgba(217, 4, 41, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 200; /* Stays physically layered on top so it never goes behind */
+            position: fixed; /* Boundless viewport flight capability */
+            /* Default initial resting coordinates mapped for thumb reach flow */
+            left: calc(50% + 40px);
+            top: calc(50% + 140px);
+            transform: translate(-50%, -50%);
+            transition: left 0.12s cubic-bezier(0.19, 1, 0.22, 1), top 0.12s cubic-bezier(0.19, 1, 0.22, 1);
         }
-        @keyframes pulseGlow {
-            0% { box-shadow: 0 5px 15px rgba(56, 176, 0, 0.4); }
-            100% { box-shadow: 0 5px 30px rgba(56, 176, 0, 0.9); }
+
+        @keyframes intenseGlow {
+            0% { box-shadow: 0 0 15px #38b000, 0 0 30px rgba(56, 176, 0, 0.4); }
+            100% { box-shadow: 0 0 25px #38b000, 0 0 50px rgba(56, 176, 0, 0.8); }
+        }
+
+        /* Romantic success view modifiers */
+        .celebrate-title {
+            color: var(--gold-accent) !important;
+            text-shadow: 0 0 20px rgba(254, 228, 64, 0.6) !important;
+            animation: bounce 0.6s ease infinite alternate;
+        }
+
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-8px); }
         }
     </style>
 </head>
 <body>
 
-    <div class="container" id="mainContainer">
+    <div class="ambient-glow"></div>
+
+    <div class="card-container" id="proposalCard">
         <div class="img-container">
-            <!-- Points directly to your uploaded start image -->
             <img id="displayPhoto" src="us-start.jpg" alt="Our Photo">
         </div>
         <h1 id="questionHeading">Happyyy Girlfriend Day CHELLO!!!</h1>
         <p id="subText">Will you be my girlfriend all over again? ❤️</p>
         
-        <div class="btn-wrapper" id="workSpace">
+        <div class="interactive-zone" id="actionArea">
             <button id="yesBtn">YES! </button>
-            <button id="noBtn">No </button>
         </div>
     </div>
+
+    <!-- The No button injected cleanly at the root layer to avoid boundary masking traps -->
+    <button id="noBtn">No </button>
 
     <script>
         const noBtn = document.getElementById('noBtn');
@@ -111,7 +197,8 @@
         const heading = document.getElementById('questionHeading');
         const subText = document.getElementById('subText');
         const photo = document.getElementById('displayPhoto');
-        const workSpace = document.getElementById('workSpace');
+        const actionArea = document.getElementById('actionArea');
+        const card = document.getElementById('proposalCard');
 
         let yesScale = 1;
         let clickCount = 0;
@@ -121,53 +208,62 @@
             "Shut up and think again! ",
             "Chumma please click Yes! ✨",
             "Ayy button is broken, Tell Yes now! 🔥",
-            "Inna chello, avolothana? ❌"
+            "Inna chello, avolothana? ❌",
+            "Look how huge the YES button got! 😏",
+            "Catch me if you can! 🏃‍♀️💨"
         ];
 
-        function moveNoButton(e) {
-            if(e) e.preventDefault();
-            
-            if (noBtn.style.position !== 'absolute') {
-                noBtn.style.position = 'absolute';
-            }
+        // Safely map initial layout dynamic positioning for the runaway target
+        function setupButtonPosition() {
+            const rect = yesBtn.getBoundingClientRect();
+            // Rest position neatly to the right side of the Yes button on loading sequence
+            noBtn.style.left = (rect.right + 60) + 'px';
+            noBtn.style.top = (rect.top + (rect.height / 2)) + 'px';
+        }
 
-            const spaceWidth = workSpace.clientWidth;
-            const spaceHeight = workSpace.clientHeight;
+        window.addEventListener('load', setupButtonPosition);
+        window.addEventListener('resize', setupButtonPosition);
+
+        function escapeNoButton(e) {
+            if(e) e.preventDefault();
+
+            // Total viewport spatial dynamic bounds calculation
+            const viewWidth = window.innerWidth;
+            const viewHeight = window.innerHeight;
             const btnWidth = noBtn.offsetWidth;
             const btnHeight = noBtn.offsetHeight;
 
-            const maxX = spaceWidth - btnWidth;
-            const maxY = spaceHeight - btnHeight;
+            // Safe system boundaries checking to keep elements inside screen view parameters
+            const minX = btnWidth;
+            const maxX = viewWidth - btnWidth;
+            const minY = btnHeight + 40; // Top buffer for Notch UI safety
+            const maxY = viewHeight - btnHeight - 40; // Bottom home bar safety
 
-            const randomX = Math.floor(Math.random() * maxX);
-            const randomY = Math.floor(Math.random() * maxY);
+            // Pull fresh geometry matrix parameters for the expanded Yes button box
+            const yesRect = yesBtn.getBoundingClientRect();
 
+            let randomX, randomY;
+            let overlapsYes = true;
+            let safetyCounter = 0;
+
+            // Mathematical Exclusion loop: Guarantees No button NEVER lands over or under the Yes button space
+            while (overlapsYes && safetyCounter < 50) {
+                randomX = Math.floor(Math.random() * (maxX - minX)) + minX;
+                randomY = Math.floor(Math.random() * (maxY - minY)) + minY;
+
+                // Expand collision matrix slightly past actual borders for clear space mapping
+                const buffer = 30;
+                const isOutsideX = (randomX + btnWidth/2 < yesRect.left - buffer) || (randomX - btnWidth/2 > yesRect.right + buffer);
+                const isOutsideY = (randomY + btnHeight/2 < yesRect.top - buffer) || (randomY - btnHeight/2 > yesRect.bottom + buffer);
+
+                if (isOutsideX || isOutsideY) {
+                    overlapsYes = false;
+                }
+                safetyCounter++;
+            }
+
+            // Assign final flight coordinates
             noBtn.style.left = randomX + 'px';
             noBtn.style.top = randomY + 'px';
 
-            yesScale += 0.35;
-            yesBtn.style.transform = `scale(${yesScale})`;
-            yesBtn.classList.add('pulse');
-
-            if (clickCount < funnyPhrases.length) {
-                subText.innerText = funnyPhrases[clickCount];
-            } else {
-                subText.innerText = "Resistance is futile! Just click YES! 😎";
-            }
-            clickCount++;
-        }
-
-        noBtn.addEventListener('mouseenter', moveNoButton);
-        noBtn.addEventListener('touchstart', moveNoButton);
-        noBtn.addEventListener('click', moveNoButton);
-
-        yesBtn.addEventListener('click', () => {
-            workSpace.style.display = 'none';
-            heading.innerText = "YAYYYYY! ❤️💍";
-            subText.innerText = "Best decision ever. I love you to the moon and back, Chellokutieee!";
-            // Switches seamlessly to your uploaded celebration image
-            photo.src = "us-yes.jpg"; 
-        });
-    </script>
-</body>
-</html>
+            // Scale the Main Target Acceptance Button exponentially
