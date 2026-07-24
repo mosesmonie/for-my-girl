@@ -39,14 +39,14 @@
             margin: 0 0 20px 0;
             min-height: 27px;
         }
-        .gif-container img {
-            width: 140px;
-            height: 140px;
-            object-fit: contain;
+        .img-container img {
+            width: 180px;
+            height: 180px;
+            object-fit: cover; /* Keeps your custom photos perfectly cropped without stretching */
             margin-bottom: 15px;
-            border-radius: 10px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-        /* Fixed workspace wrapper to safely trap the chaotic No button */
         .btn-wrapper {
             position: relative;
             width: 100%;
@@ -81,7 +81,6 @@
             color: white;
             box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
             z-index: 99;
-            /* Explicit inline-style overrides this smooth transition instantly on runtime movement */
             transition: transform 0.1s ease;
         }
         @keyframes pulseGlow {
@@ -93,9 +92,9 @@
 <body>
 
     <div class="container" id="mainContainer">
-        <div class="gif-container">
-            <!-- Working fallback public visual assets -->
-            <img id="displayGif" src="https://giphy.com" alt="Cute proposal gif">
+        <div class="img-container">
+            <!-- Points directly to your uploaded start image -->
+            <img id="displayPhoto" src="us-start.jpg" alt="Our Photo">
         </div>
         <h1 id="questionHeading">Will you renew our relationship contract?</h1>
         <p id="subText">Will you be my girlfriend all over again? ❤️</p>
@@ -111,7 +110,7 @@
         const yesBtn = document.getElementById('yesBtn');
         const heading = document.getElementById('questionHeading');
         const subText = document.getElementById('subText');
-        const gif = document.getElementById('displayGif');
+        const photo = document.getElementById('displayPhoto');
         const workSpace = document.getElementById('workSpace');
 
         let yesScale = 1;
@@ -125,11 +124,9 @@
             "Error 404: 'No' option locked! ❌"
         ];
 
-        // This securely moves the button strictly inside the container bounds
         function moveNoButton(e) {
             if(e) e.preventDefault();
             
-            // Switch layout token to absolute injection safely upon first trigger interaction
             if (noBtn.style.position !== 'absolute') {
                 noBtn.style.position = 'absolute';
             }
@@ -139,7 +136,6 @@
             const btnWidth = noBtn.offsetWidth;
             const btnHeight = noBtn.offsetHeight;
 
-            // Compute safe margins
             const maxX = spaceWidth - btnWidth;
             const maxY = spaceHeight - btnHeight;
 
@@ -149,12 +145,10 @@
             noBtn.style.left = randomX + 'px';
             noBtn.style.top = randomY + 'px';
 
-            // Scale the Target Acceptance Button exponentially
             yesScale += 0.35;
             yesBtn.style.transform = `scale(${yesScale})`;
             yesBtn.classList.add('pulse');
 
-            // Rotate text content messages sequentially
             if (clickCount < funnyPhrases.length) {
                 subText.innerText = funnyPhrases[clickCount];
             } else {
@@ -163,17 +157,16 @@
             clickCount++;
         }
 
-        // Attach listeners across unified Desktop Hover and Mobile Touch interfaces
         noBtn.addEventListener('mouseenter', moveNoButton);
         noBtn.addEventListener('touchstart', moveNoButton);
         noBtn.addEventListener('click', moveNoButton);
 
-        // Success State Function execution
         yesBtn.addEventListener('click', () => {
             workSpace.style.display = 'none';
             heading.innerText = "YAYYYYY! ❤️💍";
             subText.innerText = "Best decision ever. I love you to the moon and back!";
-            gif.src = "https://giphy.com"; 
+            // Switches seamlessly to your uploaded celebration image
+            photo.src = "us-yes.jpg"; 
         });
     </script>
 </body>
